@@ -34,9 +34,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const toastContainer = document.getElementById("toastContainer");
 
     let allLinks = [];
-    const currentHost = window.location.host || "localhost:5000";
+    const currentOrigin = window.location.origin;
+    const currentHost = window.location.host;
 
-    // Inicializa prefixo e prévia
+    // Inicializa prefixo e prévia usando o host real do navegador
     domainPrefix.textContent = `${currentHost}/`;
     updateLivePreview();
 
@@ -112,19 +113,30 @@ document.addEventListener("DOMContentLoaded", () => {
                 body: JSON.stringify({ url, customCode: customCode || null })
             });
 
-            const data = await res.json();
+            const textResponse = await res.text();
+            let data;
+            try {
+                data = JSON.parse(textResponse);
+            } catch {
+                data = { error: textResponse || `Erro ${res.status}: ${res.statusText}` };
+            }
 
             if (!res.ok) {
-                throw new Error(data.error || "Ocorreu um erro ao processar o link.");
+                throw new Error(data.error || data.detail || `Erro ${res.status}`);
             }
 
             displayResult(data);
             showToast("🎉 Link encurtado e QR Code gerado com sucesso!", "success");
 
+            // Limpa o campo de apelido
+            customCodeInput.value = "";
+            updateLivePreview();
+
             // Recarrega a tabela de links
             loadLinks();
         } catch (err) {
             showToast(err.message, "error");
+            console.error("Falha ao encurtar:", err);
         } finally {
             btnSubmit.disabled = false;
             btnSubmit.innerHTML = `<span class="btn-submit-text">⚡ Encurtar Link e Gerar QR Code</span>`;
@@ -133,11 +145,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // 5. Exibir card de resultado
     function displayResult(item) {
-        resultShortUrl.value = item.shortUrl;
-        resultOriginalUrl.textContent = item.originalUrl;
-        btnOpenShortUrl.href = item.shortUrl;
-
+        // Garante que o link curto use o domínio público atual onde o usuário está navegando
+        const realShortUrl = `${currentOrigin}/${encodeURIComponent(item.code)}`;
         const qrEndpoint = `/api/qr/${encodeURIComponent(item.code)}?size=15&t=${Date.now()}`;
+
+        resultShortUrl.value = realShortUrl;
+        resultOriginalUrl.textContent = item.originalUrl;
+        btnOpenShortUrl.href = realShortUrl;
+
         resultQrImage.src = qrEndpoint;
         btnDownloadQr.href = qrEndpoint;
         btnDownloadQr.setAttribute("download", `qrcode-${item.code}.png`);
@@ -179,10 +194,14 @@ document.addEventListener("DOMContentLoaded", () => {
     async function loadLinks() {
         try {
             const res = await fetch("/api/links");
-            if (!res.ok) throw new Error("Erro ao carregar dados.");
+            if (!res.ok) {
+                const text = await res.text();
+                throw new Error(text || "Erro ao carregar dados.");
+            }
             allLinks = await res.json();
             renderTable(allLinks);
         } catch (err) {
+            console.error("Erro ao carregar links:", err);
             linksTableBody.innerHTML = `<tr><td colspan="5" class="empty-state"><p>Erro ao conectar com o banco de dados.</p></td></tr>`;
         }
     }
@@ -219,9 +238,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 minute: "2-digit"
             });
 
+            // Constrói o link curto garantindo o domínio do navegador
+            const itemShortUrl = `${currentOrigin}/${encodeURIComponent(link.code)}`;
+
             tr.innerHTML = `
                 <td><span class="badge-slug">/${escapeHtml(link.code)}</span></td>
-                <td><a href="${escapeHtml(link.shortUrl)}" target="_blank" class="table-short-link">${escapeHtml(link.shortUrl)}</a></td>
+                <td><a href="${escapeHtml(itemShortUrl)}" target="_blank" class="table-short-link">${escapeHtml(itemShortUrl)}</a></td>
                 <td><span class="table-orig-url" title="${escapeHtml(link.originalUrl)}">${escapeHtml(link.originalUrl)}</span></td>
                 <td><span style="color: #94a3b8; font-size: 0.85rem;">${formattedDate}</span></td>
                 <td class="text-right">
@@ -239,13 +261,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 </td>
             `;
 
-            // Eventos dos botões da linha
             tr.querySelector(".btn-copy-row").addEventListener("click", () => {
-                copyText(link.shortUrl, `Link /${link.code} copiado!`);
+                copyText(itemShortUrl, `Link /${link.code} copiado!`);
             });
 
             tr.querySelector(".btn-qr-row").addEventListener("click", () => {
-                openModal(link.code, link.shortUrl);
+                openModal(link.code, itemShortUrl);
             });
 
             tr.querySelector(".btn-del-row").addEventListener("click", () => {
@@ -304,8 +325,8 @@ document.addEventListener("DOMContentLoaded", () => {
             });
 
             if (!res.ok) {
-                const data = await res.json();
-                throw new Error(data.error || "Erro ao excluir.");
+                const text = await res.text();
+                throw new Error(text || "Erro ao excluir.");
             }
 
             if (resultShortUrl.value.endsWith(`/${code}`)) {
@@ -341,7 +362,7 @@ document.addEventListener("DOMContentLoaded", () => {
             if (toast.parentNode) {
                 toast.parentNode.removeChild(toast);
             }
-        }, 3000);
+        }, 3500);
     }
 
     function escapeHtml(text) {
