@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Encurtador de Links & QR Code Studio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <!-- Fundo com efeito de luz ambiente (glow) -->
+    <div class="ambient-glow"></div>
+    <div class="ambient-glow glow-2"></div>
+
+    <div class="app-layout">
+        <!-- Barra de Navegação Superior -->
+        <header class="navbar">
+            <div class="brand">
+                <div class="brand-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+                        <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+                    </svg>
+                </div>
+                <div>
+                    <span class="brand-name">Short<span class="brand-accent">Link</span></span>
+                    <span class="brand-sub">Studio</span>
+                </div>
+            </div>
+
+            <div class="nav-badges">
+                <span class="badge badge-permanent">
+                    <span class="pulse-dot"></span> Links Permanentes
+                </span>
+                <span class="badge badge-free">100% Gratuito</span>
+            </div>
+        </header>
+
+        <!-- Seção Hero -->
+        <section class="hero-section">
+            <h1 class="hero-title">Encurte links e gere <span class="gradient-text">QR Codes</span> na hora</h1>
+            <p class="hero-desc">Personalize o nome do seu encurtador, nunca sofra com links expirando e compartilhe com um clique.</p>
+        </section>
+
+        <!-- Card Principal de Ação -->
+        <main class="main-card glass-panel">
+            <form id="shortenForm" class="shorten-form">
+                <!-- Campo 1: URL Original -->
+                <div class="field-container">
+                    <div class="field-label-row">
+                        <label for="urlInput">Link de Destino</label>
+                        <button type="button" id="btnPasteUrl" class="btn-text-action" title="Colar link copiado">
+                            📋 Colar da Área de Transferência
+                        </button>
+                    </div>
+                    <div class="input-group">
+                        <div class="input-icon">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <line x1="2" y1="12" x2="22" y2="12"></line>
+                                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+                            </svg>
+                        </div>
+                        <input type="text" id="urlInput" placeholder="https://exemplo.com/sua-pagina-longa-ou-video" required autocomplete="off">
+                        <button type="button" id="btnClearUrl" class="btn-clear hidden" title="Limpar campo">&times;</button>
+                    </div>
+                </div>
+
+                <!-- Campo 2: Nome Personalizado (Slug) -->
+                <div class="field-container">
+                    <div class="field-label-row">
+                        <label for="customCodeInput">
+                            Nome Personalizado <span class="label-hint">(Opcional)</span>
+                        </label>
+                        <span class="live-preview-label">Prévia:</span>
+                    </div>
+
+                    <div class="slug-input-wrapper">
+                        <span class="domain-prefix" id="domainPrefix">seu-dominio.com/</span>
+                        <input type="text" id="customCodeInput" placeholder="ex: zap-contato, promo-site" maxlength="50" autocomplete="off" spellcheck="false">
+                    </div>
+
+                    <!-- Live URL Preview -->
+                    <div class="preview-box">
+                        <span class="preview-tag">Link final:</span>
+                        <code id="livePreviewUrl" class="preview-url">seu-dominio.com/...</code>
+                    </div>
+                </div>
+
+                <!-- Botão Encurtar -->
+                <button type="submit" id="btnSubmit" class="btn-submit">
+                    <span class="btn-submit-text">⚡ Encurtar Link e Gerar QR Code</span>
+                    <div class="btn-submit-glow"></div>
+                </button>
+            </form>
+
+            <!-- Card de Resultado Interativo (Aparece após encurtar) -->
+            <div id="resultCard" class="result-wrapper hidden">
+                <div class="result-top-banner">
+                    <div class="result-success-badge">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                        Link Criado com Sucesso!
+                    </div>
+                    <span class="result-meta-badge">Nunca expira</span>
+                </div>
+
+                <div class="result-body-grid">
+                    <!-- Coluna da Esquerda: Dados do Link -->
+                    <div class="result-left">
+                        <div class="result-field">
+                            <label>Seu Link Encurtado:</label>
+                            <div class="copy-box">
+                                <input type="text" id="resultShortUrl" readonly>
+                                <button type="button" id="btnCopyShortUrl" class="btn-copy-main">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                                    </svg>
+                                    <span>Copiar</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="result-field">
+                            <label>Destino Original:</label>
+                            <p id="resultOriginalUrl" class="orig-dest-display"></p>
+                        </div>
+
+                        <div class="result-footer-actions">
+                            <a id="btnOpenShortUrl" href="#" target="_blank" class="btn-action-outline">
+                                🔗 Testar no Navegador
+                            </a>
+                            <button type="button" id="btnNewLink" class="btn-action-ghost">
+                                ➕ Criar Outro Link
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Coluna da Direita: QR Code Studio -->
+                    <div class="result-right">
+                        <div class="qr-card">
+                            <div class="qr-canvas-holder">
+                                <img id="resultQrImage" src="" alt="QR Code gerado">
+                            </div>
+                            <div class="qr-downloads">
+                                <a id="btnDownloadQr" href="#" download="qrcode.png" class="btn-qr-download">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                        <polyline points="7 10 12 15 17 10"></polyline>
+                                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                                    </svg>
+                                    Baixar PNG
+                                </a>
+                                <button type="button" id="btnCopyQrImage" class="btn-qr-copy" title="Copiar Imagem QR">
+                                    📋 Copiar Imagem
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Seção de Histórico dos Links Salvos -->
+        <section class="history-section">
+            <div class="history-header">
+                <div>
+                    <h2 class="history-title">Meus Links Permanentes</h2>
+                    <p class="history-sub">Gerencie todos os seus links salvos no banco local SQLite.</p>
+                </div>
+                <div class="history-controls">
+                    <div class="search-input-wrapper">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                        </svg>
+                        <input type="text" id="searchFilter" placeholder="Buscar por nome ou URL...">
+                    </div>
+                    <span id="linkCountBadge" class="link-counter">0 links</span>
+                </div>
+            </div>
+
+            <!-- Tabela dos Links -->
+            <div class="table-card glass-panel">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Nome / Slug</th>
+                            <th>Link Curto</th>
+                            <th>Destino Original</th>
+                            <th>Data</th>
+                            <th class="text-right">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="linksTableBody">
+                        <tr>
+                            <td colspan="5" class="empty-state">
+                                <div class="empty-state-content">
+                                    <span class="empty-icon">📂</span>
+                                    <p>Nenhum link criado ainda.</p>
+                                    <small>Preencha o formulário acima para gerar o seu primeiro link com QR Code!</small>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Rodapé -->
+        <footer class="footer">
+            <p>Construído em <strong>C# / ASP.NET Core 8</strong> &bull; SQLite &bull; 100% Permanente e Sem Custos</p>
+        </footer>
+    </div>
+
+    <!-- Modal para visualização ampliada do QR Code -->
+    <div id="qrModal" class="modal-overlay hidden">
+        <div class="modal-card">
+            <div class="modal-head">
+                <h3 id="modalQrTitle">QR Code</h3>
+                <button type="button" id="btnCloseModal" class="btn-close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p id="modalQrUrl" class="modal-url"></p>
+                <div class="modal-qr-frame">
+                    <img id="modalQrImage" src="" alt="QR Code Ampliado">
+                </div>
+                <div class="modal-actions">
+                    <a id="modalDownloadBtn" href="#" download="qrcode.png" class="btn-modal-action btn-primary-modal">
+                        📥 Baixar Imagem (PNG)
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Container de Toast Notifications flutuantes -->
+    <div id="toastContainer" class="toast-container"></div>
+
+    <script src="/app.js"></script>
+</body>
+</html>

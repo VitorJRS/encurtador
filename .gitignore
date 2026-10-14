@@ -1,0 +1,9 @@
+[Bb]in/
+[Oo]bj/
+*.user
+*.suo
+*.db
+*.db-shm
+*.db-wal
+.vscode/
+.idea/
