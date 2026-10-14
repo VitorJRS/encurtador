@@ -280,11 +280,9 @@ app.MapGet("/api/qr/{code}", async (
             return Results.NotFound("Link não encontrado.");
         }
 
-        var baseUrl = GetBaseUrl(context);
-        var shortUrl = $"{baseUrl}/{link.Code}";
-
         int pixels = size.HasValue && size.Value >= 5 && size.Value <= 50 ? size.Value : 15;
-        var pngBytes = qrService.GeneratePng(shortUrl, pixels);
+        // Gera o QR Code apontando diretamente para a URL original de destino
+        var pngBytes = qrService.GeneratePng(link.OriginalUrl, pixels);
 
         return Results.File(pngBytes, "image/png", fileDownloadName: $"qrcode-{link.Code}.png");
     }

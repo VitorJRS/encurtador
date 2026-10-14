@@ -266,7 +266,7 @@ document.addEventListener("DOMContentLoaded", () => {
             });
 
             tr.querySelector(".btn-qr-row").addEventListener("click", () => {
-                openModal(link.code, itemShortUrl);
+                openModal(link.code, link.originalUrl);
             });
 
             tr.querySelector(".btn-del-row").addEventListener("click", () => {
@@ -295,9 +295,9 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // 12. Modal do QR Code
-    function openModal(code, shortUrl) {
+    function openModal(code, originalUrl) {
         modalQrTitle.textContent = `QR Code: /${code}`;
-        modalQrUrl.textContent = shortUrl;
+        modalQrUrl.textContent = `Destino: ${originalUrl}`;
         const qrUrl = `/api/qr/${encodeURIComponent(code)}?size=22`;
         modalQrImage.src = qrUrl;
         modalDownloadBtn.href = qrUrl;
