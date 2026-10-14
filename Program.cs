@@ -80,6 +80,14 @@ using (var scope = app.Services.CreateScope())
 app.UseDefaultFiles();
 app.UseStaticFiles();
 
+// Serve a página principal forçando o cabeçalho charset=utf-8
+app.MapGet("/", (IWebHostEnvironment env) =>
+{
+    var baseDir = env.WebRootPath ?? Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
+    var indexPath = Path.Combine(baseDir, "index.html");
+    return Results.File(indexPath, "text/html; charset=utf-8");
+});
+
 // Helper para obter a URL base atual da aplicação
 string GetBaseUrl(HttpContext context)
 {

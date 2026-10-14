@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
@@ -85,7 +85,7 @@ body {
     z-index: 1;
 }
 
-/* Barra de NavegaÃ§Ã£o */
+/* Barra de Navegação */
 .navbar {
     display: flex;
     justify-content: space-between;
@@ -185,7 +185,7 @@ body {
     border: 1px solid rgba(99, 102, 241, 0.3);
 }
 
-/* SeÃ§Ã£o Hero */
+/* Seção Hero */
 .hero-section {
     text-align: center;
     margin-bottom: 2.5rem;
@@ -239,7 +239,7 @@ body {
     border-color: rgba(255, 255, 255, 0.14);
 }
 
-/* FormulÃ¡rio */
+/* Formulário */
 .field-container {
     margin-bottom: 1.5rem;
 }
@@ -388,7 +388,7 @@ input[type="text"]::placeholder {
     font-size: 0.82rem;
 }
 
-/* BotÃ£o Submit */
+/* Botão Submit */
 .btn-submit {
     position: relative;
     width: 100%;
@@ -638,7 +638,7 @@ input[type="text"]::placeholder {
     color: #fff;
 }
 
-/* SeÃ§Ã£o de HistÃ³rico */
+/* Seção de Histórico */
 .history-section {
     margin-top: 1rem;
 }
@@ -1021,7 +1021,7 @@ input[type="text"]::placeholder {
     <div class="ambient-glow glow-2"></div>
 
     <div class="app-layout">
-        <!-- Barra de NavegaÃ§Ã£o Superior -->
+        <!-- Barra de Navegação Superior -->
         <header class="navbar">
             <div class="brand">
                 <div class="brand-icon">
@@ -1044,13 +1044,13 @@ input[type="text"]::placeholder {
             </div>
         </header>
 
-        <!-- SeÃ§Ã£o Hero -->
+        <!-- Seção Hero -->
         <section class="hero-section">
             <h1 class="hero-title">Encurte links e gere <span class="gradient-text">QR Codes</span> na hora</h1>
             <p class="hero-desc">Personalize o nome do seu encurtador, nunca sofra com links expirando e compartilhe com um clique.</p>
         </section>
 
-        <!-- Card Principal de AÃ§Ã£o -->
+        <!-- Card Principal de Ação -->
         <main class="main-card glass-panel">
             <form id="shortenForm" class="shorten-form">
                 <!-- Campo 1: URL Original -->
@@ -1058,7 +1058,7 @@ input[type="text"]::placeholder {
                     <div class="field-label-row">
                         <label for="urlInput">Link de Destino</label>
                         <button type="button" id="btnPasteUrl" class="btn-text-action" title="Colar link copiado">
-                            ðŸ“‹ Colar da Ãrea de TransferÃªncia
+                            📋 Colar da Área de Transferência
                         </button>
                     </div>
                     <div class="input-group">
@@ -1080,7 +1080,7 @@ input[type="text"]::placeholder {
                         <label for="customCodeInput">
                             Nome Personalizado <span class="label-hint">(Opcional)</span>
                         </label>
-                        <span class="live-preview-label">PrÃ©via:</span>
+                        <span class="live-preview-label">Prévia:</span>
                     </div>
 
                     <div class="slug-input-wrapper">
@@ -1095,14 +1095,14 @@ input[type="text"]::placeholder {
                     </div>
                 </div>
 
-                <!-- BotÃ£o Encurtar -->
+                <!-- Botão Encurtar -->
                 <button type="submit" id="btnSubmit" class="btn-submit">
-                    <span class="btn-submit-text">âš¡ Encurtar Link e Gerar QR Code</span>
+                    <span class="btn-submit-text">⚡ Encurtar Link e Gerar QR Code</span>
                     <div class="btn-submit-glow"></div>
                 </button>
             </form>
 
-            <!-- Card de Resultado Interativo (Aparece apÃ³s encurtar) -->
+            <!-- Card de Resultado Interativo (Aparece após encurtar) -->
             <div id="resultCard" class="result-wrapper hidden">
                 <div class="result-top-banner">
                     <div class="result-success-badge">
@@ -1138,10 +1138,10 @@ input[type="text"]::placeholder {
 
                         <div class="result-footer-actions">
                             <a id="btnOpenShortUrl" href="#" target="_blank" class="btn-action-outline">
-                                ðŸ”— Testar no Navegador
+                                🔗 Testar no Navegador
                             </a>
                             <button type="button" id="btnNewLink" class="btn-action-ghost">
-                                âž• Criar Outro Link
+                                ➕ Criar Outro Link
                             </button>
                         </div>
                     </div>
@@ -1162,7 +1162,7 @@ input[type="text"]::placeholder {
                                     Baixar PNG
                                 </a>
                                 <button type="button" id="btnCopyQrImage" class="btn-qr-copy" title="Copiar Imagem QR">
-                                    ðŸ“‹ Copiar Imagem
+                                    📋 Copiar Imagem
                                 </button>
                             </div>
                         </div>
@@ -1171,7 +1171,7 @@ input[type="text"]::placeholder {
             </div>
         </main>
 
-        <!-- SeÃ§Ã£o de HistÃ³rico dos Links Salvos -->
+        <!-- Seção de Histórico dos Links Salvos -->
         <section class="history-section">
             <div class="history-header">
                 <div>
@@ -1199,16 +1199,16 @@ input[type="text"]::placeholder {
                             <th>Link Curto</th>
                             <th>Destino Original</th>
                             <th>Data</th>
-                            <th class="text-right">AÃ§Ãµes</th>
+                            <th class="text-right">Ações</th>
                         </tr>
                     </thead>
                     <tbody id="linksTableBody">
                         <tr>
                             <td colspan="5" class="empty-state">
                                 <div class="empty-state-content">
-                                    <span class="empty-icon">ðŸ“‚</span>
+                                    <span class="empty-icon">📂</span>
                                     <p>Nenhum link criado ainda.</p>
-                                    <small>Preencha o formulÃ¡rio acima para gerar o seu primeiro link com QR Code!</small>
+                                    <small>Preencha o formulário acima para gerar o seu primeiro link com QR Code!</small>
                                 </div>
                             </td>
                         </tr>
@@ -1217,13 +1217,13 @@ input[type="text"]::placeholder {
             </div>
         </section>
 
-        <!-- RodapÃ© -->
+        <!-- Rodapé -->
         <footer class="footer">
-            <p>ConstruÃ­do em <strong>C# / .NET 8</strong> &bull; Hospedado na Nuvem &bull; 100% Permanente e Gratuito</p>
+            <p>Construído em <strong>C# / .NET 8</strong> &bull; Hospedado na Nuvem &bull; 100% Permanente e Gratuito</p>
         </footer>
     </div>
 
-    <!-- Modal para visualizaÃ§Ã£o ampliada do QR Code -->
+    <!-- Modal para visualização ampliada do QR Code -->
     <div id="qrModal" class="modal-overlay hidden">
         <div class="modal-card">
             <div class="modal-head">
@@ -1237,7 +1237,7 @@ input[type="text"]::placeholder {
                 </div>
                 <div class="modal-actions">
                     <a id="modalDownloadBtn" href="#" download="qrcode.png" class="btn-modal-action btn-primary-modal">
-                        ðŸ“¥ Baixar Imagem (PNG)
+                        📥 Baixar Imagem (PNG)
                     </a>
                 </div>
             </div>
@@ -1249,7 +1249,7 @@ input[type="text"]::placeholder {
 
     <script>
 document.addEventListener("DOMContentLoaded", () => {
-    // ReferÃªncias DOM
+    // Referências DOM
     const shortenForm = document.getElementById("shortenForm");
     const urlInput = document.getElementById("urlInput");
     const btnPasteUrl = document.getElementById("btnPasteUrl");
@@ -1287,16 +1287,16 @@ document.addEventListener("DOMContentLoaded", () => {
     const currentOrigin = window.location.origin;
     const currentHost = window.location.host;
 
-    // Inicializa prefixo e prÃ©via usando o host real do navegador
+    // Inicializa prefixo e prévia usando o host real do navegador
     domainPrefix.textContent = `${currentHost}/`;
     updateLivePreview();
 
     // Carrega links salvos
     loadLinks();
 
-    // 1. AtualizaÃ§Ã£o da prÃ©via ao vivo enquanto digita o apelido/slug
+    // 1. Atualização da prévia ao vivo enquanto digita o apelido/slug
     customCodeInput.addEventListener("input", () => {
-        // Remove espaÃ§os ou caracteres proibidos automaticamente
+        // Remove espaços ou caracteres proibidos automaticamente
         customCodeInput.value = customCodeInput.value.replace(/[^a-zA-Z0-9_-]/g, "");
         updateLivePreview();
     });
@@ -1307,26 +1307,26 @@ document.addEventListener("DOMContentLoaded", () => {
             livePreviewUrl.textContent = `${currentHost}/${slug}`;
             livePreviewUrl.style.color = "#38bdf8";
         } else {
-            livePreviewUrl.textContent = `${currentHost}/[cÃ³digo-aleatÃ³rio]`;
+            livePreviewUrl.textContent = `${currentHost}/[código-aleatório]`;
             livePreviewUrl.style.color = "#94a3b8";
         }
     }
 
-    // 2. BotÃ£o de colar URL da Ã¡rea de transferÃªncia
+    // 2. Botão de colar URL da área de transferência
     btnPasteUrl.addEventListener("click", async () => {
         try {
             const text = await navigator.clipboard.readText();
             if (text) {
                 urlInput.value = text.trim();
                 urlInput.dispatchEvent(new Event("input"));
-                showToast("Link colado da Ã¡rea de transferÃªncia!", "success");
+                showToast("Link colado da área de transferência!", "success");
             }
         } catch {
-            showToast("PermissÃ£o para colar negada pelo navegador.", "error");
+            showToast("Permissão para colar negada pelo navegador.", "error");
         }
     });
 
-    // 3. BotÃ£o limpar campo de URL
+    // 3. Botão limpar campo de URL
     urlInput.addEventListener("input", () => {
         if (urlInput.value.trim()) {
             btnClearUrl.classList.remove("hidden");
@@ -1341,7 +1341,7 @@ document.addEventListener("DOMContentLoaded", () => {
         urlInput.focus();
     });
 
-    // 4. Submeter formulÃ¡rio para encurtar
+    // 4. Submeter formulário para encurtar
     shortenForm.addEventListener("submit", async (e) => {
         e.preventDefault();
 
@@ -1354,7 +1354,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         btnSubmit.disabled = true;
-        btnSubmit.innerHTML = `<span class="btn-submit-text">â³ Encurtando e Gerando QR Code...</span>`;
+        btnSubmit.innerHTML = `<span class="btn-submit-text">⏳ Encurtando e Gerando QR Code...</span>`;
 
         try {
             const res = await fetch("/api/shorten", {
@@ -1376,7 +1376,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             displayResult(data);
-            showToast("ðŸŽ‰ Link encurtado e QR Code gerado com sucesso!", "success");
+            showToast("🎉 Link encurtado e QR Code gerado com sucesso!", "success");
 
             // Limpa o campo de apelido
             customCodeInput.value = "";
@@ -1389,13 +1389,13 @@ document.addEventListener("DOMContentLoaded", () => {
             console.error("Falha ao encurtar:", err);
         } finally {
             btnSubmit.disabled = false;
-            btnSubmit.innerHTML = `<span class="btn-submit-text">âš¡ Encurtar Link e Gerar QR Code</span>`;
+            btnSubmit.innerHTML = `<span class="btn-submit-text">⚡ Encurtar Link e Gerar QR Code</span>`;
         }
     });
 
     // 5. Exibir card de resultado
     function displayResult(item) {
-        // Garante que o link curto use o domÃ­nio pÃºblico atual onde o usuÃ¡rio estÃ¡ navegando
+        // Garante que o link curto use o domínio público atual onde o usuário está navegando
         const realShortUrl = `${currentOrigin}/${encodeURIComponent(item.code)}`;
         const qrEndpoint = `/api/qr/${encodeURIComponent(item.code)}?size=15&t=${Date.now()}`;
 
@@ -1416,7 +1416,7 @@ document.addEventListener("DOMContentLoaded", () => {
         copyText(resultShortUrl.value, "Link copiado!");
     });
 
-    // 7. Copiar Imagem do QR Code para a Ã¡rea de transferÃªncia
+    // 7. Copiar Imagem do QR Code para a área de transferência
     btnCopyQrImage.addEventListener("click", async () => {
         try {
             const res = await fetch(resultQrImage.src);
@@ -1426,11 +1426,11 @@ document.addEventListener("DOMContentLoaded", () => {
             ]);
             showToast("Imagem do QR Code copiada! (Pronta para colar)", "success");
         } catch {
-            showToast("Seu navegador nÃ£o suporta copiar imagem diretamente. Use o botÃ£o Baixar PNG.", "error");
+            showToast("Seu navegador não suporta copiar imagem diretamente. Use o botão Baixar PNG.", "error");
         }
     });
 
-    // 8. BotÃ£o Criar Outro Link
+    // 8. Botão Criar Outro Link
     btnNewLink.addEventListener("click", () => {
         urlInput.value = "";
         customCodeInput.value = "";
@@ -1465,7 +1465,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 <tr>
                     <td colspan="5" class="empty-state">
                         <div class="empty-state-content">
-                            <span class="empty-icon">ðŸ“‚</span>
+                            <span class="empty-icon">📂</span>
                             <p>Nenhum link cadastrado no momento.</p>
                             <small>Encurte um link acima para salvar no seu banco permanente.</small>
                         </div>
@@ -1488,7 +1488,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 minute: "2-digit"
             });
 
-            // ConstrÃ³i o link curto garantindo o domÃ­nio do navegador
+            // Constrói o link curto garantindo o domínio do navegador
             const itemShortUrl = `${currentOrigin}/${encodeURIComponent(link.code)}`;
 
             tr.innerHTML = `
@@ -1499,13 +1499,13 @@ document.addEventListener("DOMContentLoaded", () => {
                 <td class="text-right">
                     <div class="action-buttons">
                         <button type="button" class="btn-tbl-action btn-copy-row" title="Copiar Link">
-                            ðŸ“‹ Copiar
+                            📋 Copiar
                         </button>
                         <button type="button" class="btn-tbl-action btn-qr-row" title="Ver QR Code">
-                            ðŸ“± QR
+                            📱 QR
                         </button>
                         <button type="button" class="btn-tbl-action btn-tbl-del btn-del-row" title="Excluir link permanente">
-                            ðŸ—‘ï¸
+                            🗑️
                         </button>
                     </div>
                 </td>
@@ -1590,7 +1590,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    // UtilitÃ¡rio de CÃ³pia
+    // Utilitário de Cópia
     function copyText(text, successMessage) {
         navigator.clipboard.writeText(text).then(() => {
             showToast(successMessage, "success");
@@ -1603,7 +1603,7 @@ document.addEventListener("DOMContentLoaded", () => {
     function showToast(message, type = "success") {
         const toast = document.createElement("div");
         toast.className = `toast toast-${type}`;
-        const icon = type === "success" ? "âœ“" : "âš ï¸";
+        const icon = type === "success" ? "✓" : "⚠️";
         toast.innerHTML = `<span>${icon}</span> <span>${escapeHtml(message)}</span>`;
 
         toastContainer.appendChild(toast);
@@ -1625,4 +1625,3 @@ document.addEventListener("DOMContentLoaded", () => {
 </script>
 </body>
 </html>
-
