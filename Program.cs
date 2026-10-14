@@ -7,11 +7,25 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Configuração do SQLite permanente
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") 
-                       ?? "Data Source=links.db";
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlite(connectionString));
+// Configuração de Banco de Dados: Suporta PostgreSQL do Render (DATABASE_URL) ou SQLite como fallback
+var databaseUrl = Environment.GetEnvironmentVariable("DATABASE_URL") 
+                  ?? builder.Configuration.GetConnectionString("DATABASE_URL");
+
+if (!string.IsNullOrWhiteSpace(databaseUrl))
+{
+    var pgConnString = ConvertDatabaseUrlToPostgresConnString(databaseUrl);
+    builder.Services.AddDbContext<AppDbContext>(options =>
+        options.UseNpgsql(pgConnString));
+    Console.WriteLine("[DB] Usando PostgreSQL do Render (DATABASE_URL detectada).");
+}
+else
+{
+    var sqliteConn = builder.Configuration.GetConnectionString("DefaultConnection") 
+                     ?? "Data Source=links.db";
+    builder.Services.AddDbContext<AppDbContext>(options =>
+        options.UseSqlite(sqliteConn));
+    Console.WriteLine("[DB] Usando SQLite embutido.");
+}
 
 // Serviço de geração de QR Code
 builder.Services.AddSingleton<IQrCodeService, QrCodeService>();
@@ -221,4 +235,21 @@ if (!string.IsNullOrWhiteSpace(port))
 else
 {
     app.Run();
+}
+
+static string ConvertDatabaseUrlToPostgresConnString(string databaseUrl)
+{
+    if (databaseUrl.StartsWith("postgres://", StringComparison.OrdinalIgnoreCase))
+    {
+        databaseUrl = "postgresql://" + databaseUrl["postgres://".Length..];
+    }
+
+    var uri = new Uri(databaseUrl);
+    var userInfo = uri.UserInfo.Split(':');
+    var username = userInfo[0];
+    var password = userInfo.Length > 1 ? userInfo[1] : string.Empty;
+    var port = uri.Port > 0 ? uri.Port : 5432;
+    var database = uri.AbsolutePath.TrimStart('/');
+
+    return $"Host={uri.Host};Port={port};Database={database};Username={username};Password={password};SSL Mode=Require;Trust Server Certificate=true;";
 }
