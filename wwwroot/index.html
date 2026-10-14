@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
@@ -7,7 +7,1013 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/style.css">
+    <style>
+:root {
+    --bg-dark: #080c14;
+    --bg-surface: #0f172a;
+    --bg-panel: rgba(18, 26, 45, 0.75);
+    --bg-panel-hover: rgba(28, 40, 68, 0.85);
+    --border-subtle: rgba(255, 255, 255, 0.08);
+    --border-focus: #6366f1;
+    --border-active: rgba(99, 102, 241, 0.4);
+
+    --text-primary: #f8fafc;
+    --text-secondary: #94a3b8;
+    --text-muted: #64748b;
+
+    --brand-indigo: #6366f1;
+    --brand-violet: #8b5cf6;
+    --brand-cyan: #06b6d4;
+    --brand-emerald: #10b981;
+    --brand-rose: #f43f5e;
+
+    --gradient-brand: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #d946ef 100%);
+    --gradient-glow: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, rgba(0, 0, 0, 0) 70%);
+
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 18px;
+    --radius-xl: 24px;
+
+    --shadow-subtle: 0 4px 20px -2px rgba(0, 0, 0, 0.5);
+    --shadow-glow: 0 0 35px -5px rgba(99, 102, 241, 0.3);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background-color: var(--bg-dark);
+    color: var(--text-primary);
+    min-height: 100vh;
+    padding: 2.5rem 1.25rem;
+    position: relative;
+    overflow-x: hidden;
+    line-height: 1.5;
+}
+
+/* Efeito de luz ambiente */
+.ambient-glow {
+    position: absolute;
+    top: -150px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 800px;
+    height: 450px;
+    background: radial-gradient(ellipse at center, rgba(99, 102, 241, 0.18) 0%, rgba(139, 92, 246, 0.08) 45%, rgba(0,0,0,0) 70%);
+    filter: blur(60px);
+    pointer-events: none;
+    z-index: 0;
+}
+
+.glow-2 {
+    top: 550px;
+    left: 20%;
+    width: 600px;
+    height: 350px;
+    background: radial-gradient(ellipse at center, rgba(6, 182, 212, 0.1) 0%, rgba(0,0,0,0) 70%);
+}
+
+.app-layout {
+    max-width: 960px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+}
+
+/* Barra de NavegaÃ§Ã£o */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2.5rem;
+    padding-bottom: 1.25rem;
+    border-bottom: 1px solid var(--border-subtle);
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+}
+
+.brand-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: var(--radius-md);
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.25), rgba(139, 92, 246, 0.15));
+    border: 1px solid rgba(99, 102, 241, 0.4);
+    color: #a5b4fc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 15px rgba(99, 102, 241, 0.2);
+}
+
+.brand-name {
+    font-size: 1.45rem;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    color: #fff;
+}
+
+.brand-accent {
+    background: var(--gradient-brand);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.brand-sub {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--text-secondary);
+    padding: 0.2rem 0.5rem;
+    border-radius: 9999px;
+    margin-left: 0.4rem;
+    font-weight: 700;
+    vertical-align: middle;
+}
+
+.nav-badges {
+    display: flex;
+    gap: 0.6rem;
+    align-items: center;
+}
+
+.badge {
+    font-size: 0.78rem;
+    font-weight: 600;
+    padding: 0.35rem 0.75rem;
+    border-radius: 9999px;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    letter-spacing: 0.02em;
+}
+
+.badge-permanent {
+    background: rgba(16, 185, 129, 0.12);
+    color: #34d399;
+    border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.pulse-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #34d399;
+    box-shadow: 0 0 8px #34d399;
+    animation: pulseAnim 2s infinite;
+}
+
+@keyframes pulseAnim {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.3); opacity: 0.6; }
+}
+
+.badge-free {
+    background: rgba(99, 102, 241, 0.12);
+    color: #a5b4fc;
+    border: 1px solid rgba(99, 102, 241, 0.3);
+}
+
+/* SeÃ§Ã£o Hero */
+.hero-section {
+    text-align: center;
+    margin-bottom: 2.5rem;
+}
+
+.hero-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    line-height: 1.2;
+    letter-spacing: -0.03em;
+    margin-bottom: 0.75rem;
+    color: #fff;
+}
+
+@media (max-width: 640px) {
+    .hero-title {
+        font-size: 1.85rem;
+    }
+}
+
+.gradient-text {
+    background: var(--gradient-brand);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.hero-desc {
+    color: var(--text-secondary);
+    font-size: 1.05rem;
+    max-width: 580px;
+    margin: 0 auto;
+}
+
+/* Painel Glassmorphism */
+.glass-panel {
+    background: var(--bg-panel);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-subtle);
+}
+
+.main-card {
+    padding: 2.2rem;
+    margin-bottom: 3.5rem;
+    transition: border-color 0.3s;
+}
+
+.main-card:hover {
+    border-color: rgba(255, 255, 255, 0.14);
+}
+
+/* FormulÃ¡rio */
+.field-container {
+    margin-bottom: 1.5rem;
+}
+
+.field-label-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.6rem;
+}
+
+label {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #e2e8f0;
+}
+
+.label-hint {
+    color: var(--text-muted);
+    font-size: 0.82rem;
+    font-weight: normal;
+}
+
+.btn-text-action {
+    background: transparent;
+    border: none;
+    color: #818cf8;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: color 0.2s;
+    font-family: inherit;
+}
+
+.btn-text-action:hover {
+    color: #a5b4fc;
+    text-decoration: underline;
+}
+
+.input-group {
+    display: flex;
+    align-items: center;
+    background: rgba(11, 16, 28, 0.85);
+    border: 1.5px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    padding: 0.2rem 0.5rem;
+    transition: all 0.25s ease;
+}
+
+.input-group:focus-within {
+    border-color: var(--border-focus);
+    box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.2);
+    background: rgba(11, 16, 28, 1);
+}
+
+.input-icon {
+    padding: 0.75rem 0.9rem;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+}
+
+input[type="text"] {
+    width: 100%;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--text-primary);
+    font-size: 1.05rem;
+    padding: 0.75rem 0.5rem;
+    font-family: inherit;
+}
+
+input[type="text"]::placeholder {
+    color: var(--text-muted);
+}
+
+.btn-clear {
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    font-size: 1.3rem;
+    cursor: pointer;
+    padding: 0 0.8rem;
+    line-height: 1;
+}
+
+.btn-clear:hover {
+    color: #fff;
+}
+
+/* Slug Input Wrapper */
+.slug-input-wrapper {
+    display: flex;
+    align-items: center;
+    background: rgba(11, 16, 28, 0.85);
+    border: 1.5px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    transition: all 0.25s ease;
+}
+
+.slug-input-wrapper:focus-within {
+    border-color: var(--border-focus);
+    box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.2);
+    background: rgba(11, 16, 28, 1);
+}
+
+.domain-prefix {
+    background: rgba(255, 255, 255, 0.04);
+    color: #38bdf8;
+    padding: 0.85rem 1rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.9rem;
+    font-weight: 500;
+    border-right: 1px solid var(--border-subtle);
+    white-space: nowrap;
+    user-select: none;
+}
+
+.slug-input-wrapper input {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.95rem;
+    color: #f1f5f9;
+}
+
+/* Live Preview Box */
+.preview-box {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 0.6rem;
+    font-size: 0.84rem;
+}
+
+.preview-tag {
+    color: var(--text-muted);
+}
+
+.preview-url {
+    background: rgba(255, 255, 255, 0.05);
+    color: #38bdf8;
+    padding: 0.2rem 0.55rem;
+    border-radius: var(--radius-sm);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.82rem;
+}
+
+/* BotÃ£o Submit */
+.btn-submit {
+    position: relative;
+    width: 100%;
+    background: var(--gradient-brand);
+    color: #fff;
+    border: none;
+    border-radius: var(--radius-md);
+    padding: 1.1rem;
+    font-size: 1.08rem;
+    font-weight: 700;
+    cursor: pointer;
+    overflow: hidden;
+    margin-top: 1rem;
+    transition: transform 0.2s, box-shadow 0.2s;
+    font-family: inherit;
+    box-shadow: 0 4px 15px rgba(99, 102, 241, 0.35);
+}
+
+.btn-submit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 25px rgba(99, 102, 241, 0.5);
+}
+
+.btn-submit:active {
+    transform: translateY(0);
+}
+
+.btn-submit:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Card de Resultado */
+.result-wrapper {
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border-subtle);
+    animation: slideDown 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes slideDown {
+    from { opacity: 0; transform: translateY(-12px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.result-top-banner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.result-success-badge {
+    color: #34d399;
+    font-weight: 700;
+    font-size: 1.15rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.result-meta-badge {
+    background: rgba(99, 102, 241, 0.15);
+    border: 1px solid rgba(99, 102, 241, 0.35);
+    color: #c7d2fe;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    padding: 0.25rem 0.65rem;
+    border-radius: 9999px;
+    letter-spacing: 0.05em;
+}
+
+.result-body-grid {
+    display: grid;
+    grid-template-columns: 1fr 250px;
+    gap: 2rem;
+    align-items: start;
+}
+
+@media (max-width: 768px) {
+    .result-body-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.result-field {
+    margin-bottom: 1.25rem;
+}
+
+.copy-box {
+    display: flex;
+    background: rgba(11, 16, 28, 0.95);
+    border: 1.5px solid var(--border-focus);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(99, 102, 241, 0.15);
+}
+
+.copy-box input {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.1rem;
+    color: #38bdf8;
+    font-weight: 600;
+    padding: 0.85rem 1rem;
+}
+
+.btn-copy-main {
+    background: var(--brand-indigo);
+    color: #fff;
+    border: none;
+    padding: 0 1.4rem;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    transition: background 0.2s;
+    font-family: inherit;
+    white-space: nowrap;
+}
+
+.btn-copy-main:hover {
+    background: #4f46e5;
+}
+
+.orig-dest-display {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    background: rgba(11, 16, 28, 0.6);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-sm);
+    padding: 0.65rem 0.9rem;
+    word-break: break-all;
+}
+
+.result-footer-actions {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    margin-top: 1.2rem;
+}
+
+.btn-action-outline {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--border-subtle);
+    color: #f1f5f9;
+    padding: 0.65rem 1.1rem;
+    border-radius: var(--radius-sm);
+    font-weight: 600;
+    font-size: 0.88rem;
+    text-decoration: none;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+}
+
+.btn-action-outline:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.btn-action-ghost {
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    padding: 0.65rem 1rem;
+    font-weight: 600;
+    font-size: 0.88rem;
+    cursor: pointer;
+    font-family: inherit;
+    transition: color 0.2s;
+}
+
+.btn-action-ghost:hover {
+    color: #fff;
+}
+
+/* Card QR Code */
+.qr-card {
+    background: rgba(11, 16, 28, 0.9);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    padding: 1.2rem;
+    text-align: center;
+}
+
+.qr-canvas-holder {
+    background: #ffffff;
+    padding: 0.85rem;
+    border-radius: var(--radius-md);
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    margin-bottom: 1rem;
+}
+
+.qr-canvas-holder img {
+    width: 170px;
+    height: 170px;
+    display: block;
+}
+
+.qr-downloads {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.btn-qr-download {
+    background: #059669;
+    color: #fff;
+    padding: 0.65rem;
+    border-radius: var(--radius-sm);
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    transition: background 0.2s;
+}
+
+.btn-qr-download:hover {
+    background: #047857;
+}
+
+.btn-qr-copy {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid var(--border-subtle);
+    color: var(--text-secondary);
+    padding: 0.55rem;
+    border-radius: var(--radius-sm);
+    font-weight: 600;
+    font-size: 0.82rem;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.2s;
+}
+
+.btn-qr-copy:hover {
+    background: rgba(255, 255, 255, 0.12);
+    color: #fff;
+}
+
+/* SeÃ§Ã£o de HistÃ³rico */
+.history-section {
+    margin-top: 1rem;
+}
+
+.history-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 1.25rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.history-title {
+    font-size: 1.5rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: #fff;
+}
+
+.history-sub {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+.history-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.search-input-wrapper {
+    display: flex;
+    align-items: center;
+    background: rgba(18, 26, 45, 0.85);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    padding: 0.2rem 0.6rem;
+    width: 250px;
+    transition: border-color 0.2s;
+}
+
+.search-input-wrapper:focus-within {
+    border-color: var(--border-focus);
+}
+
+.search-input-wrapper svg {
+    color: var(--text-muted);
+    margin-right: 0.3rem;
+}
+
+.search-input-wrapper input {
+    font-size: 0.88rem;
+    padding: 0.5rem 0.2rem;
+}
+
+.link-counter {
+    background: rgba(99, 102, 241, 0.15);
+    color: #a5b4fc;
+    font-size: 0.82rem;
+    font-weight: 700;
+    padding: 0.45rem 0.75rem;
+    border-radius: var(--radius-md);
+    border: 1px solid rgba(99, 102, 241, 0.3);
+    white-space: nowrap;
+}
+
+/* Tabela de Dados */
+.table-card {
+    overflow-x: auto;
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.92rem;
+    text-align: left;
+}
+
+.data-table th {
+    background: rgba(11, 16, 28, 0.6);
+    padding: 1rem 1.25rem;
+    color: var(--text-secondary);
+    font-weight: 600;
+    border-bottom: 1px solid var(--border-subtle);
+    white-space: nowrap;
+}
+
+.data-table td {
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    vertical-align: middle;
+}
+
+.data-table tr:hover td {
+    background: var(--bg-panel-hover);
+}
+
+.data-table tr:last-child td {
+    border-bottom: none;
+}
+
+.badge-slug {
+    background: rgba(99, 102, 241, 0.15);
+    color: #c7d2fe;
+    border: 1px solid rgba(99, 102, 241, 0.3);
+    padding: 0.3rem 0.65rem;
+    border-radius: var(--radius-sm);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.84rem;
+    font-weight: 600;
+}
+
+.table-short-link {
+    color: #38bdf8;
+    text-decoration: none;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 500;
+    transition: text-decoration 0.2s;
+}
+
+.table-short-link:hover {
+    text-decoration: underline;
+}
+
+.table-orig-url {
+    max-width: 240px;
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: var(--text-muted);
+    font-size: 0.86rem;
+}
+
+.action-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.4rem;
+}
+
+.btn-tbl-action {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid var(--border-subtle);
+    color: var(--text-secondary);
+    padding: 0.35rem 0.7rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.btn-tbl-action:hover {
+    background: rgba(255, 255, 255, 0.15);
+    color: #fff;
+}
+
+.btn-tbl-del {
+    background: rgba(244, 63, 94, 0.12);
+    border-color: rgba(244, 63, 94, 0.25);
+    color: #fca5a5;
+}
+
+.btn-tbl-del:hover {
+    background: rgba(244, 63, 94, 0.25);
+    color: #fff;
+}
+
+/* Empty State */
+.empty-state {
+    text-align: center;
+    padding: 3.5rem 1.5rem !important;
+}
+
+.empty-state-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.empty-icon {
+    font-size: 2.5rem;
+    opacity: 0.6;
+}
+
+.empty-state p {
+    font-weight: 600;
+    color: #cbd5e1;
+    font-size: 1.05rem;
+}
+
+.empty-state small {
+    color: var(--text-muted);
+}
+
+/* Footer */
+.footer {
+    text-align: center;
+    margin-top: 4rem;
+    padding: 1.5rem 0;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    border-top: 1px solid var(--border-subtle);
+}
+
+.footer strong {
+    color: var(--text-secondary);
+}
+
+/* Modal */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.modal-card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-xl);
+    width: 90%;
+    max-width: 420px;
+    padding: 1.8rem;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
+    animation: scaleUp 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes scaleUp {
+    from { transform: scale(0.92); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+.modal-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.25rem;
+}
+
+.modal-head h3 {
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+
+.btn-close-modal {
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    font-size: 1.8rem;
+    cursor: pointer;
+    line-height: 1;
+}
+
+.btn-close-modal:hover {
+    color: #fff;
+}
+
+.modal-url {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.92rem;
+    color: #38bdf8;
+    margin-bottom: 1.25rem;
+    word-break: break-all;
+    text-align: center;
+}
+
+.modal-qr-frame {
+    background: #ffffff;
+    padding: 1.2rem;
+    border-radius: var(--radius-md);
+    display: flex;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+    width: fit-content;
+}
+
+.modal-qr-frame img {
+    width: 220px;
+    height: 220px;
+    display: block;
+}
+
+.modal-actions {
+    display: flex;
+    gap: 0.75rem;
+    justify-content: center;
+}
+
+.btn-primary-modal {
+    background: #059669;
+    color: #fff;
+    padding: 0.8rem 1.4rem;
+    border-radius: var(--radius-sm);
+    font-weight: 700;
+    text-decoration: none;
+    font-size: 0.95rem;
+    transition: background 0.2s;
+}
+
+.btn-primary-modal:hover {
+    background: #047857;
+}
+
+/* Toast Notifications */
+.toast-container {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    z-index: 1100;
+    pointer-events: none;
+}
+
+.toast {
+    background: rgba(18, 26, 45, 0.95);
+    border: 1px solid var(--border-subtle);
+    color: #fff;
+    padding: 0.9rem 1.4rem;
+    border-radius: var(--radius-md);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    font-size: 0.92rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    backdrop-filter: blur(12px);
+    animation: toastIn 0.3s cubic-bezier(0.16, 1, 0.3, 1), toastOut 0.3s ease 2.7s forwards;
+    pointer-events: auto;
+}
+
+.toast-success {
+    border-left: 4px solid var(--brand-emerald);
+}
+
+.toast-error {
+    border-left: 4px solid var(--brand-rose);
+}
+
+@keyframes toastIn {
+    from { transform: translateX(100px); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes toastOut {
+    to { transform: translateY(20px); opacity: 0; }
+}
+
+.hidden {
+    display: none !important;
+}
+
+.text-right {
+    text-align: right;
+}
+
+</style>
 </head>
 <body>
     <!-- Fundo com efeito de luz ambiente (glow) -->
@@ -15,7 +1021,7 @@
     <div class="ambient-glow glow-2"></div>
 
     <div class="app-layout">
-        <!-- Barra de Navegação Superior -->
+        <!-- Barra de NavegaÃ§Ã£o Superior -->
         <header class="navbar">
             <div class="brand">
                 <div class="brand-icon">
@@ -38,13 +1044,13 @@
             </div>
         </header>
 
-        <!-- Seção Hero -->
+        <!-- SeÃ§Ã£o Hero -->
         <section class="hero-section">
             <h1 class="hero-title">Encurte links e gere <span class="gradient-text">QR Codes</span> na hora</h1>
             <p class="hero-desc">Personalize o nome do seu encurtador, nunca sofra com links expirando e compartilhe com um clique.</p>
         </section>
 
-        <!-- Card Principal de Ação -->
+        <!-- Card Principal de AÃ§Ã£o -->
         <main class="main-card glass-panel">
             <form id="shortenForm" class="shorten-form">
                 <!-- Campo 1: URL Original -->
@@ -52,7 +1058,7 @@
                     <div class="field-label-row">
                         <label for="urlInput">Link de Destino</label>
                         <button type="button" id="btnPasteUrl" class="btn-text-action" title="Colar link copiado">
-                            📋 Colar da Área de Transferência
+                            ðŸ“‹ Colar da Ãrea de TransferÃªncia
                         </button>
                     </div>
                     <div class="input-group">
@@ -74,7 +1080,7 @@
                         <label for="customCodeInput">
                             Nome Personalizado <span class="label-hint">(Opcional)</span>
                         </label>
-                        <span class="live-preview-label">Prévia:</span>
+                        <span class="live-preview-label">PrÃ©via:</span>
                     </div>
 
                     <div class="slug-input-wrapper">
@@ -89,14 +1095,14 @@
                     </div>
                 </div>
 
-                <!-- Botão Encurtar -->
+                <!-- BotÃ£o Encurtar -->
                 <button type="submit" id="btnSubmit" class="btn-submit">
-                    <span class="btn-submit-text">⚡ Encurtar Link e Gerar QR Code</span>
+                    <span class="btn-submit-text">âš¡ Encurtar Link e Gerar QR Code</span>
                     <div class="btn-submit-glow"></div>
                 </button>
             </form>
 
-            <!-- Card de Resultado Interativo (Aparece após encurtar) -->
+            <!-- Card de Resultado Interativo (Aparece apÃ³s encurtar) -->
             <div id="resultCard" class="result-wrapper hidden">
                 <div class="result-top-banner">
                     <div class="result-success-badge">
@@ -132,10 +1138,10 @@
 
                         <div class="result-footer-actions">
                             <a id="btnOpenShortUrl" href="#" target="_blank" class="btn-action-outline">
-                                🔗 Testar no Navegador
+                                ðŸ”— Testar no Navegador
                             </a>
                             <button type="button" id="btnNewLink" class="btn-action-ghost">
-                                ➕ Criar Outro Link
+                                âž• Criar Outro Link
                             </button>
                         </div>
                     </div>
@@ -156,7 +1162,7 @@
                                     Baixar PNG
                                 </a>
                                 <button type="button" id="btnCopyQrImage" class="btn-qr-copy" title="Copiar Imagem QR">
-                                    📋 Copiar Imagem
+                                    ðŸ“‹ Copiar Imagem
                                 </button>
                             </div>
                         </div>
@@ -165,7 +1171,7 @@
             </div>
         </main>
 
-        <!-- Seção de Histórico dos Links Salvos -->
+        <!-- SeÃ§Ã£o de HistÃ³rico dos Links Salvos -->
         <section class="history-section">
             <div class="history-header">
                 <div>
@@ -193,16 +1199,16 @@
                             <th>Link Curto</th>
                             <th>Destino Original</th>
                             <th>Data</th>
-                            <th class="text-right">Ações</th>
+                            <th class="text-right">AÃ§Ãµes</th>
                         </tr>
                     </thead>
                     <tbody id="linksTableBody">
                         <tr>
                             <td colspan="5" class="empty-state">
                                 <div class="empty-state-content">
-                                    <span class="empty-icon">📂</span>
+                                    <span class="empty-icon">ðŸ“‚</span>
                                     <p>Nenhum link criado ainda.</p>
-                                    <small>Preencha o formulário acima para gerar o seu primeiro link com QR Code!</small>
+                                    <small>Preencha o formulÃ¡rio acima para gerar o seu primeiro link com QR Code!</small>
                                 </div>
                             </td>
                         </tr>
@@ -211,13 +1217,13 @@
             </div>
         </section>
 
-        <!-- Rodapé -->
+        <!-- RodapÃ© -->
         <footer class="footer">
-            <p>Construído em <strong>C# / .NET 8</strong> &bull; Hospedado na Nuvem &bull; 100% Permanente e Gratuito</p>
+            <p>ConstruÃ­do em <strong>C# / .NET 8</strong> &bull; Hospedado na Nuvem &bull; 100% Permanente e Gratuito</p>
         </footer>
     </div>
 
-    <!-- Modal para visualização ampliada do QR Code -->
+    <!-- Modal para visualizaÃ§Ã£o ampliada do QR Code -->
     <div id="qrModal" class="modal-overlay hidden">
         <div class="modal-card">
             <div class="modal-head">
@@ -231,7 +1237,7 @@
                 </div>
                 <div class="modal-actions">
                     <a id="modalDownloadBtn" href="#" download="qrcode.png" class="btn-modal-action btn-primary-modal">
-                        📥 Baixar Imagem (PNG)
+                        ðŸ“¥ Baixar Imagem (PNG)
                     </a>
                 </div>
             </div>
@@ -241,6 +1247,382 @@
     <!-- Container de Toast Notifications flutuantes -->
     <div id="toastContainer" class="toast-container"></div>
 
-    <script src="/app.js"></script>
+    <script>
+document.addEventListener("DOMContentLoaded", () => {
+    // ReferÃªncias DOM
+    const shortenForm = document.getElementById("shortenForm");
+    const urlInput = document.getElementById("urlInput");
+    const btnPasteUrl = document.getElementById("btnPasteUrl");
+    const btnClearUrl = document.getElementById("btnClearUrl");
+    const customCodeInput = document.getElementById("customCodeInput");
+    const domainPrefix = document.getElementById("domainPrefix");
+    const livePreviewUrl = document.getElementById("livePreviewUrl");
+    const btnSubmit = document.getElementById("btnSubmit");
+
+    const resultCard = document.getElementById("resultCard");
+    const resultShortUrl = document.getElementById("resultShortUrl");
+    const resultOriginalUrl = document.getElementById("resultOriginalUrl");
+    const btnCopyShortUrl = document.getElementById("btnCopyShortUrl");
+    const btnOpenShortUrl = document.getElementById("btnOpenShortUrl");
+    const btnNewLink = document.getElementById("btnNewLink");
+
+    const resultQrImage = document.getElementById("resultQrImage");
+    const btnDownloadQr = document.getElementById("btnDownloadQr");
+    const btnCopyQrImage = document.getElementById("btnCopyQrImage");
+
+    const linksTableBody = document.getElementById("linksTableBody");
+    const searchFilter = document.getElementById("searchFilter");
+    const linkCountBadge = document.getElementById("linkCountBadge");
+
+    const qrModal = document.getElementById("qrModal");
+    const modalQrTitle = document.getElementById("modalQrTitle");
+    const modalQrUrl = document.getElementById("modalQrUrl");
+    const modalQrImage = document.getElementById("modalQrImage");
+    const modalDownloadBtn = document.getElementById("modalDownloadBtn");
+    const btnCloseModal = document.getElementById("btnCloseModal");
+
+    const toastContainer = document.getElementById("toastContainer");
+
+    let allLinks = [];
+    const currentOrigin = window.location.origin;
+    const currentHost = window.location.host;
+
+    // Inicializa prefixo e prÃ©via usando o host real do navegador
+    domainPrefix.textContent = `${currentHost}/`;
+    updateLivePreview();
+
+    // Carrega links salvos
+    loadLinks();
+
+    // 1. AtualizaÃ§Ã£o da prÃ©via ao vivo enquanto digita o apelido/slug
+    customCodeInput.addEventListener("input", () => {
+        // Remove espaÃ§os ou caracteres proibidos automaticamente
+        customCodeInput.value = customCodeInput.value.replace(/[^a-zA-Z0-9_-]/g, "");
+        updateLivePreview();
+    });
+
+    function updateLivePreview() {
+        const slug = customCodeInput.value.trim();
+        if (slug) {
+            livePreviewUrl.textContent = `${currentHost}/${slug}`;
+            livePreviewUrl.style.color = "#38bdf8";
+        } else {
+            livePreviewUrl.textContent = `${currentHost}/[cÃ³digo-aleatÃ³rio]`;
+            livePreviewUrl.style.color = "#94a3b8";
+        }
+    }
+
+    // 2. BotÃ£o de colar URL da Ã¡rea de transferÃªncia
+    btnPasteUrl.addEventListener("click", async () => {
+        try {
+            const text = await navigator.clipboard.readText();
+            if (text) {
+                urlInput.value = text.trim();
+                urlInput.dispatchEvent(new Event("input"));
+                showToast("Link colado da Ã¡rea de transferÃªncia!", "success");
+            }
+        } catch {
+            showToast("PermissÃ£o para colar negada pelo navegador.", "error");
+        }
+    });
+
+    // 3. BotÃ£o limpar campo de URL
+    urlInput.addEventListener("input", () => {
+        if (urlInput.value.trim()) {
+            btnClearUrl.classList.remove("hidden");
+        } else {
+            btnClearUrl.classList.add("hidden");
+        }
+    });
+
+    btnClearUrl.addEventListener("click", () => {
+        urlInput.value = "";
+        btnClearUrl.classList.add("hidden");
+        urlInput.focus();
+    });
+
+    // 4. Submeter formulÃ¡rio para encurtar
+    shortenForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const url = urlInput.value.trim();
+        const customCode = customCodeInput.value.trim();
+
+        if (!url) {
+            showToast("Por favor, informe a URL de destino.", "error");
+            return;
+        }
+
+        btnSubmit.disabled = true;
+        btnSubmit.innerHTML = `<span class="btn-submit-text">â³ Encurtando e Gerando QR Code...</span>`;
+
+        try {
+            const res = await fetch("/api/shorten", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ url, customCode: customCode || null })
+            });
+
+            const textResponse = await res.text();
+            let data;
+            try {
+                data = JSON.parse(textResponse);
+            } catch {
+                data = { error: textResponse || `Erro ${res.status}: ${res.statusText}` };
+            }
+
+            if (!res.ok) {
+                throw new Error(data.error || data.detail || `Erro ${res.status}`);
+            }
+
+            displayResult(data);
+            showToast("ðŸŽ‰ Link encurtado e QR Code gerado com sucesso!", "success");
+
+            // Limpa o campo de apelido
+            customCodeInput.value = "";
+            updateLivePreview();
+
+            // Recarrega a tabela de links
+            loadLinks();
+        } catch (err) {
+            showToast(err.message, "error");
+            console.error("Falha ao encurtar:", err);
+        } finally {
+            btnSubmit.disabled = false;
+            btnSubmit.innerHTML = `<span class="btn-submit-text">âš¡ Encurtar Link e Gerar QR Code</span>`;
+        }
+    });
+
+    // 5. Exibir card de resultado
+    function displayResult(item) {
+        // Garante que o link curto use o domÃ­nio pÃºblico atual onde o usuÃ¡rio estÃ¡ navegando
+        const realShortUrl = `${currentOrigin}/${encodeURIComponent(item.code)}`;
+        const qrEndpoint = `/api/qr/${encodeURIComponent(item.code)}?size=15&t=${Date.now()}`;
+
+        resultShortUrl.value = realShortUrl;
+        resultOriginalUrl.textContent = item.originalUrl;
+        btnOpenShortUrl.href = realShortUrl;
+
+        resultQrImage.src = qrEndpoint;
+        btnDownloadQr.href = qrEndpoint;
+        btnDownloadQr.setAttribute("download", `qrcode-${item.code}.png`);
+
+        resultCard.classList.remove("hidden");
+        resultCard.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    }
+
+    // 6. Copiar Link Encurtado
+    btnCopyShortUrl.addEventListener("click", () => {
+        copyText(resultShortUrl.value, "Link copiado!");
+    });
+
+    // 7. Copiar Imagem do QR Code para a Ã¡rea de transferÃªncia
+    btnCopyQrImage.addEventListener("click", async () => {
+        try {
+            const res = await fetch(resultQrImage.src);
+            const blob = await res.blob();
+            await navigator.clipboard.write([
+                new ClipboardItem({ "image/png": blob })
+            ]);
+            showToast("Imagem do QR Code copiada! (Pronta para colar)", "success");
+        } catch {
+            showToast("Seu navegador nÃ£o suporta copiar imagem diretamente. Use o botÃ£o Baixar PNG.", "error");
+        }
+    });
+
+    // 8. BotÃ£o Criar Outro Link
+    btnNewLink.addEventListener("click", () => {
+        urlInput.value = "";
+        customCodeInput.value = "";
+        btnClearUrl.classList.add("hidden");
+        updateLivePreview();
+        urlInput.focus();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+
+    // 9. Carregar Lista de Links
+    async function loadLinks() {
+        try {
+            const res = await fetch("/api/links");
+            if (!res.ok) {
+                const text = await res.text();
+                throw new Error(text || "Erro ao carregar dados.");
+            }
+            allLinks = await res.json();
+            renderTable(allLinks);
+        } catch (err) {
+            console.error("Erro ao carregar links:", err);
+            linksTableBody.innerHTML = `<tr><td colspan="5" class="empty-state"><p>Erro ao conectar com o banco de dados.</p></td></tr>`;
+        }
+    }
+
+    // 10. Renderizar tabela
+    function renderTable(links) {
+        linkCountBadge.textContent = `${links.length} link${links.length === 1 ? "" : "s"}`;
+
+        if (!links || links.length === 0) {
+            linksTableBody.innerHTML = `
+                <tr>
+                    <td colspan="5" class="empty-state">
+                        <div class="empty-state-content">
+                            <span class="empty-icon">ðŸ“‚</span>
+                            <p>Nenhum link cadastrado no momento.</p>
+                            <small>Encurte um link acima para salvar no seu banco permanente.</small>
+                        </div>
+                    </td>
+                </tr>
+            `;
+            return;
+        }
+
+        linksTableBody.innerHTML = "";
+
+        links.forEach(link => {
+            const tr = document.createElement("tr");
+
+            const formattedDate = new Date(link.createdAt).toLocaleDateString("pt-BR", {
+                day: "2-digit",
+                month: "2-digit",
+                year: "numeric",
+                hour: "2-digit",
+                minute: "2-digit"
+            });
+
+            // ConstrÃ³i o link curto garantindo o domÃ­nio do navegador
+            const itemShortUrl = `${currentOrigin}/${encodeURIComponent(link.code)}`;
+
+            tr.innerHTML = `
+                <td><span class="badge-slug">/${escapeHtml(link.code)}</span></td>
+                <td><a href="${escapeHtml(itemShortUrl)}" target="_blank" class="table-short-link">${escapeHtml(itemShortUrl)}</a></td>
+                <td><span class="table-orig-url" title="${escapeHtml(link.originalUrl)}">${escapeHtml(link.originalUrl)}</span></td>
+                <td><span style="color: #94a3b8; font-size: 0.85rem;">${formattedDate}</span></td>
+                <td class="text-right">
+                    <div class="action-buttons">
+                        <button type="button" class="btn-tbl-action btn-copy-row" title="Copiar Link">
+                            ðŸ“‹ Copiar
+                        </button>
+                        <button type="button" class="btn-tbl-action btn-qr-row" title="Ver QR Code">
+                            ðŸ“± QR
+                        </button>
+                        <button type="button" class="btn-tbl-action btn-tbl-del btn-del-row" title="Excluir link permanente">
+                            ðŸ—‘ï¸
+                        </button>
+                    </div>
+                </td>
+            `;
+
+            tr.querySelector(".btn-copy-row").addEventListener("click", () => {
+                copyText(itemShortUrl, `Link /${link.code} copiado!`);
+            });
+
+            tr.querySelector(".btn-qr-row").addEventListener("click", () => {
+                openModal(link.code, itemShortUrl);
+            });
+
+            tr.querySelector(".btn-del-row").addEventListener("click", () => {
+                deleteLink(link.code);
+            });
+
+            linksTableBody.appendChild(tr);
+        });
+    }
+
+    // 11. Filtro de Busca
+    searchFilter.addEventListener("input", (e) => {
+        const query = e.target.value.toLowerCase().trim();
+        if (!query) {
+            renderTable(allLinks);
+            return;
+        }
+
+        const filtered = allLinks.filter(item =>
+            item.code.toLowerCase().includes(query) ||
+            item.originalUrl.toLowerCase().includes(query) ||
+            item.shortUrl.toLowerCase().includes(query)
+        );
+
+        renderTable(filtered);
+    });
+
+    // 12. Modal do QR Code
+    function openModal(code, shortUrl) {
+        modalQrTitle.textContent = `QR Code: /${code}`;
+        modalQrUrl.textContent = shortUrl;
+        const qrUrl = `/api/qr/${encodeURIComponent(code)}?size=22`;
+        modalQrImage.src = qrUrl;
+        modalDownloadBtn.href = qrUrl;
+        modalDownloadBtn.setAttribute("download", `qrcode-${code}.png`);
+        qrModal.classList.remove("hidden");
+    }
+
+    btnCloseModal.addEventListener("click", () => {
+        qrModal.classList.add("hidden");
+    });
+
+    qrModal.addEventListener("click", (e) => {
+        if (e.target === qrModal) qrModal.classList.add("hidden");
+    });
+
+    // 13. Excluir Link
+    async function deleteLink(code) {
+        if (!confirm(`Tem certeza que deseja apagar o link permanente "/${code}"?`)) {
+            return;
+        }
+
+        try {
+            const res = await fetch(`/api/links/${encodeURIComponent(code)}`, {
+                method: "DELETE"
+            });
+
+            if (!res.ok) {
+                const text = await res.text();
+                throw new Error(text || "Erro ao excluir.");
+            }
+
+            if (resultShortUrl.value.endsWith(`/${code}`)) {
+                resultCard.classList.add("hidden");
+            }
+
+            showToast(`Link "/${code}" foi removido com sucesso.`, "success");
+            loadLinks();
+        } catch (err) {
+            showToast(err.message, "error");
+        }
+    }
+
+    // UtilitÃ¡rio de CÃ³pia
+    function copyText(text, successMessage) {
+        navigator.clipboard.writeText(text).then(() => {
+            showToast(successMessage, "success");
+        }).catch(() => {
+            prompt("Copie manualmente:", text);
+        });
+    }
+
+    // Toast Notifications
+    function showToast(message, type = "success") {
+        const toast = document.createElement("div");
+        toast.className = `toast toast-${type}`;
+        const icon = type === "success" ? "âœ“" : "âš ï¸";
+        toast.innerHTML = `<span>${icon}</span> <span>${escapeHtml(message)}</span>`;
+
+        toastContainer.appendChild(toast);
+
+        setTimeout(() => {
+            if (toast.parentNode) {
+                toast.parentNode.removeChild(toast);
+            }
+        }, 3500);
+    }
+
+    function escapeHtml(text) {
+        const div = document.createElement("div");
+        div.textContent = text;
+        return div.innerHTML;
+    }
+});
+
+</script>
 </body>
 </html>
+

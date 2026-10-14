@@ -287,13 +287,24 @@ app.MapGet("/api/qr/{code}", async (
     }
 });
 
-// 5. Redirecionamento de link encurtado permanente /{code}
-app.MapGet("/{code}", async (string code, AppDbContext db) =>
+// Rotas explícitas de arquivos estáticos essenciais
+app.MapGet("/style.css", (IWebHostEnvironment env) =>
 {
-    if (code.Contains('.'))
-    {
-        return Results.NotFound();
-    }
+    var baseDir = env.WebRootPath ?? Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
+    var filePath = Path.Combine(baseDir, "style.css");
+    return File.Exists(filePath) ? Results.File(filePath, "text/css") : Results.NotFound();
+});
+
+app.MapGet("/app.js", (IWebHostEnvironment env) =>
+{
+    var baseDir = env.WebRootPath ?? Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
+    var filePath = Path.Combine(baseDir, "app.js");
+    return File.Exists(filePath) ? Results.File(filePath, "application/javascript") : Results.NotFound();
+});
+
+// 5. Redirecionamento de link encurtado permanente /{code} (apenas letras, números, hífen e underline)
+app.MapGet("/{code:regex(^[a-zA-Z0-9_-]+$)}", async (string code, AppDbContext db) =>
+{
 
     try
     {
